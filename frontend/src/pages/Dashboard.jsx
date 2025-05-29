@@ -96,7 +96,7 @@ function Dashboard() {
 
                     </div>
                 </div>
-                <div className='w-1/3 bg-[#1e384a] p-10 flex gap-3 flex-col'>
+                <div className='w-1/3 bg-[#1e384a] p-10 flex gap-3 flex-col overflow-y-auto max-h-screen'>
                     <h3 className='text-white text-center text-xl'>View all your links here</h3>
                     <button className='p-1 rounded-md mb-3 bg-green-500 hover:bg-green-400 w-1/4 mx-auto'
                         onClick={handleView}
