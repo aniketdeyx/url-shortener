@@ -13,7 +13,7 @@ export const createShortUrl = async (req, res) => {
     else{
         short_url = await createShortUrlWithoutUser(data.url)
     }
-  res.send(`http://localhost:3000/`+ short_url)
+  res.send(`https://urlshortener-no5z.onrender.com/s/`+ short_url)
 }
 
 export const redirectFromShortUrl = async (req, res) => {
