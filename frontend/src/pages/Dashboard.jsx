@@ -28,10 +28,11 @@ function Dashboard() {
 
     const handleView = async () => {
         try {
-            const { data } = await axiosInstance.get("/user/urls");
-            setAllUrls(data.urls);
+            const { data } = await axiosInstance.get("/api/user/urls");
+            setAllUrls(data?.urls || []);
         } catch (error) {
             console.error("Error fetching user URLs:", error);
+            setAllUrls([]);
         }
     }
 
@@ -75,8 +76,8 @@ function Dashboard() {
                             </div>
                         )}
                         {shortUrl && (
-                            <div className=''><p className='mt-10 mb-2 font-semibold'>Your shortened URL</p>
-                                <div className='p-4 text-green-500 border-2 border-slate-500 rounded-md'>
+                            <div className=''><p className='mt-10 mb-2 font-semibold text-black'>Your shortened URL</p>
+                                <div className='p-4 text-green-700 border-2 border-slate-500 rounded-md'>
                                     {shortUrl}
                                     <button
                                         onClick={() => {
@@ -84,14 +85,14 @@ function Dashboard() {
                                             setCopied(true);
                                             setTimeout(() => setCopied(false), 1500);
                                         }}
-                                        className="px-3 mx-2 py-2 text-black bg-zinc-300 rounded-md hover:bg-zinc-400 transition"
+                                        className="px-3 mx-2 py-2 text-black bg-zinc-400 rounded-md hover:bg-zinc-400 transition"
                                     >
                                         Copy
                                     </button>
                                 </div>
                             </div>
                         )}
-                        {copied && <p className="text-green-400">Copied!</p>}
+                        {copied && <p className="text-green-700">Copied!</p>}
 
                     </div>
                 </div>
@@ -101,12 +102,17 @@ function Dashboard() {
                         onClick={handleView}
                     >View</button>
                     <div className='flex flex-col gap-2 '>
-                        {allUrls.length > 0 && allUrls.map((item, index) => (
-                            <div key={index} className="text-white bg-[#14242e] p-4 text-balance rounded mb-2">
-                                <p className='break-all'>Original: <span className='text-sm text-blue-500'>{item.longUrl}</span></p>
-                                <p>Text: <span className='text-sm text-gray-300'>{item.shortUrl}</span></p>
-                            </div>
-                        ))}
+                        {Array.isArray(allUrls) && allUrls.length > 0 ? (
+                            allUrls.map((item, index) => (
+                                <div key={index} className="text-white bg-[#14242e] p-4 text-balance rounded mb-2">
+                                    <p className='break-all'>Original: <span className='text-sm text-blue-500'>{item.longUrl}</span></p>
+                                    <p>Text: <span className='text-sm text-gray-300'>{item.shortUrl}</span></p>
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-white text-center">No links found.</p>
+                        )}
+
 
 
                     </div>

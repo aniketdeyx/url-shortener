@@ -19,5 +19,8 @@ export const createShortUrl = async (req, res) => {
 export const redirectFromShortUrl = async (req, res) => {
     const {id} = req.params;
     const url = await getShortUrl(id);
+    if (!url) {
+        return res.status(404).send("Short URL not found");
+    }
     res.redirect(url.longUrl)
 }
