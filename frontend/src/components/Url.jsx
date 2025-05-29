@@ -37,14 +37,14 @@ function Url() {
                 <h2 className='text-4xl text-center text-black'>Link Shortener</h2>
             <p className='text-sm text-center text-black'>Shorten your links in a CLICK!!</p>
             </div>
-            <div className="flex flex-col items-center rounded-md gap-4 text-orange-950 h-full m-24">
-                <label htmlFor="url" className="text-2xl font-serif">Enter your URL</label>
+            <div className="flex flex-col items-center rounded-md gap-4 text-orange-950 h-full mx-24">
+                <label htmlFor="url" className="lg:text-2xl text-xl font-serif">Enter your URL</label>
                 <input
                     type="text"
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     placeholder="https://example.com"
-                    className="border-gray-800 placeholder:text-zinc-900 text-zinc-900 w-[85vw] px-3 border-2 py-2 lg:w-1/2 rounded-md outline-none bg-[#aa8469]"
+                    className="border-gray-800 placeholder:text-zinc-600 text-zinc-900 w-[85vw] px-3 border-2 py-2 lg:w-1/2 rounded-md outline-none bg-[#aa8469]"
                 />
                 <button
                     onClick={handleSubmit}

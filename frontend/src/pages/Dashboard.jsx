@@ -1,126 +1,125 @@
 import React, { useState } from 'react'
 import Url from '../components/Url'
-import { axiosInstance } from '../utils/axiosInstance';
-import { Link } from '@tanstack/react-router';
+import { axiosInstance } from '../utils/axiosInstance'
+import { Link } from '@tanstack/react-router'
 
 function Dashboard() {
-    const [url, setUrl] = useState("");
-    const [shortUrl, setShortUrl] = useState("");
-    const [error, setError] = useState("");
-    const [copied, setCopied] = useState(false);
-    const [slug, setSlug] = useState("");
-    const [allUrls, setAllUrls] = useState([]);
+  const [url, setUrl] = useState("")
+  const [shortUrl, setShortUrl] = useState("")
+  const [error, setError] = useState("")
+  const [copied, setCopied] = useState(false)
+  const [slug, setSlug] = useState("")
+  const [allUrls, setAllUrls] = useState([])
 
-    const handleSubmit = async () => {
-        try {
-            const { data } = await axiosInstance.post("/api/create", {
-                url: url,
-                slug: slug
-
-            })
-            setShortUrl(data);
-            setError("");
-        } catch (error) {
-            console.error("Error creating short URL:", error);
-            setError("You cannot leave the URL empty");
-        }
+  const handleSubmit = async () => {
+    try {
+      const { data } = await axiosInstance.post("/api/create", {
+        url: url,
+        slug: slug,
+      })
+      setShortUrl(data)
+      setError("")
+    } catch (error) {
+      console.error("Error creating short URL:", error)
+      setError("You cannot leave the URL empty")
     }
+  }
 
-    const handleView = async () => {
-        try {
-            const { data } = await axiosInstance.get("/api/user/urls");
-            setAllUrls(data?.urls || []);
-        } catch (error) {
-            console.error("Error fetching user URLs:", error);
-            setAllUrls([]);
-        }
+  const handleView = async () => {
+    try {
+      const { data } = await axiosInstance.get("/api/user/urls")
+      setAllUrls(data?.urls || [])
+    } catch (error) {
+      console.error("Error fetching user URLs:", error)
+      setAllUrls([])
     }
+  }
 
-    return (
-        <div>
-            <nav>
-                <ul className="flex justify-evenly items-center bg-[#634530] text-white p-5">
-                    <Link to='/'><li>HOME</li></Link>
-                    <Link to='/auth'>
-                        <li>LOGOUT</li>
-                    </Link>
-                </ul>
-            </nav>
-            <div className='flex'>
+  return (
+    <div>
+      {/* Navbar */}
+      <nav>
+        <ul className="flex justify-evenly items-center bg-[#634530] text-white p-5">
+          <Link to="/"><li>HOME</li></Link>
+          <Link to="/auth"><li>LOGOUT</li></Link>
+        </ul>
+      </nav>
 
-                <div className='w-2/3'>
-                    <div className="flex flex-col items-center gap-4 bg-[#e9ddd4] text-white justify-center h-screen">
-                        <label htmlFor="url" className="text-2xl text-orange-950 font-serif">Enter your URL</label>
-                        <input
-                            type="text"
-                            value={url}
-                            onChange={(e) => setUrl(e.target.value)}
-                            placeholder="https://example.com"
-                            className="border-gray-800 placeholder:text-zinc-600 text-zinc-900 bg-[#aa8469] outline-none px-3 border-2 py-2 w-1/2 rounded-md"
-                        />
-                        <label htmlFor="url" className="text-2xl text-orange-950 font-serif">Enter your text</label>
-                        <input
-                            type="text"
-                            value={slug}
-                            onChange={(e) => setSlug(e.target.value)}
-                            placeholder="xyz"
-                            className="border-gray-800 placeholder:text-zinc-600 text-zinc-900 bg-[#aa8469] outline-none px-3 border-2 py-2 w-1/2 rounded-md"
-                        />
+      {/* URL Shortener Section */}
+      <div className="bg-[#e9ddd4] flex flex-col items-center justify-center gap-6 p-8 min-h-[60vh]">
+        <label htmlFor="url" className="text-2xl text-orange-950 font-serif">Enter your URL</label>
+        <input
+          type="text"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+          placeholder="https://example.com"
+          className="w-full md:w-1/2 border-gray-800 placeholder:text-zinc-600 text-zinc-900 bg-[#aa8469] outline-none px-3 border-2 py-2 rounded-md"
+        />
 
-                        <button
-                            onClick={handleSubmit}
-                            className="bg-green-900 rounded-md px-5 py-2 mx-5 hover:bg-green-800">Shorten my link</button>
-                        {error && (
-                            <div className="text-red-500">
-                                {error}
-                            </div>
-                        )}
-                        {shortUrl && (
-                            <div className=''><p className='mt-10 mb-2 font-semibold text-black'>Your shortened URL</p>
-                                <div className='p-4 text-green-700 border-2 border-slate-500 rounded-md'>
-                                    {shortUrl}
-                                    <button
-                                        onClick={() => {
-                                            navigator.clipboard.writeText(shortUrl);
-                                            setCopied(true);
-                                            setTimeout(() => setCopied(false), 1500);
-                                        }}
-                                        className="px-3 mx-2 py-2 text-black bg-zinc-400 rounded-md hover:bg-zinc-400 transition"
-                                    >
-                                        Copy
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-                        {copied && <p className="text-green-700">Copied!</p>}
+        <label htmlFor="slug" className="text-2xl text-orange-950 font-serif">Enter your text</label>
+        <input
+          type="text"
+          value={slug}
+          onChange={(e) => setSlug(e.target.value)}
+          placeholder="xyz"
+          className="w-full md:w-1/2 border-gray-800 placeholder:text-zinc-600 text-zinc-900 bg-[#aa8469] outline-none px-3 border-2 py-2 rounded-md"
+        />
 
-                    </div>
-                </div>
-                <div className='w-1/3 bg-[#1e384a] p-10 flex gap-3 flex-col overflow-y-auto max-h-screen'>
-                    <h3 className='text-white text-center text-xl'>View all your links here</h3>
-                    <button className='p-1 rounded-md mb-3 bg-green-500 hover:bg-green-400 w-1/4 mx-auto'
-                        onClick={handleView}
-                    >View</button>
-                    <div className='flex flex-col gap-2 '>
-                        {Array.isArray(allUrls) && allUrls.length > 0 ? (
-                            allUrls.map((item, index) => (
-                                <div key={index} className="text-white bg-[#14242e] p-4 text-balance rounded mb-2">
-                                    <p className='break-all'>Original: <span className='text-sm text-blue-500'>{item.longUrl}</span></p>
-                                    <p>Text: <span className='text-sm text-gray-300'>{item.shortUrl}</span></p>
-                                </div>
-                            ))
-                        ) : (
-                            <p className="text-white text-center">No links found.</p>
-                        )}
+        <button
+          onClick={handleSubmit}
+          className="bg-green-900 rounded-md px-5 py-2 hover:bg-green-800 text-white"
+        >
+          Shorten my link
+        </button>
 
+        {error && <p className="text-red-500">{error}</p>}
 
-
-                    </div>
-
-                </div>
+        {shortUrl && (
+          <div className="mt-10 text-center">
+            <p className="mb-2 font-semibold text-black">Your shortened URL</p>
+            <div className="p-4 text-green-700 border-2 border-slate-500 rounded-md flex flex-col md:flex-row items-center justify-center gap-2">
+              <span>{shortUrl}</span>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(shortUrl)
+                  setCopied(true)
+                  setTimeout(() => setCopied(false), 1500)
+                }}
+                className="px-3 py-2 text-black bg-zinc-400 rounded-md hover:bg-zinc-500 transition"
+              >
+                Copy
+              </button>
             </div>
+            {copied && <p className="text-green-700 mt-2">Copied!</p>}
+          </div>
+        )}
+      </div>
+
+      {/* View All URLs Section */}
+      <div className="bg-[#1e384a] p-6 flex flex-col items-center gap-4 min-h-[40vh]">
+        <h3 className="text-white text-xl font-semibold text-center">View all your links here</h3>
+        <button
+          className="p-2 rounded-md bg-green-500 hover:bg-green-400"
+          onClick={handleView}
+        >
+          View
+        </button>
+
+        <div className="w-full max-w-4xl flex flex-col gap-2 overflow-y-auto max-h-[50vh]">
+          {Array.isArray(allUrls) && allUrls.length > 0 ? (
+            allUrls.map((item, index) => (
+              <div key={index} className="text-white bg-[#14242e] p-4 text-sm rounded mb-2 break-all">
+                <p><strong>Original:</strong> <span className="text-blue-400">{item.longUrl}</span></p>
+                <p><strong>Text:</strong> <span className="text-gray-300">{item.shortUrl}</span></p>
+              </div>
+            ))
+          ) : (
+            <p className="text-white text-center">No links found.</p>
+          )}
         </div>
-    )
+      </div>
+    </div>
+  )
 }
 
 export default Dashboard

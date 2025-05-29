@@ -30,15 +30,15 @@ function Register({ setState }) {
   };
 
   return (
-    <div>
+    <div className='max-h-screen'>
       <nav>
         <ul className="flex justify-evenly items-center bg-[#634530] text-white p-5">
           <Link to='/'><li>HOME</li></Link>
           <Link to='/auth'><li>LOGIN</li></Link>
         </ul>
       </nav>
-      <div className='bg-[#e9ddd4]'>
-        <div className="flex items-center justify-center min-h-screen">
+      <div className='bg-[#e9ddd4] p-6'>
+        <div className="flex lg:items-center translate-y-24 lg:translate-y-1 lg:justify-center min-h-screen">
           <div className="w-full max-w-sm h-[50vh] p-6 bg-[#68513f] border-2 border-zinc-800 rounded-lg shadow-md">
             <h2 className="text-2xl font-bold mb-4 text-center text-yellow-50">Register</h2>
 
@@ -72,7 +72,7 @@ function Register({ setState }) {
               <button
                 type="submit"
                 disabled={loading}
-                className={`bg-gray-800 w-1/3 translate-x-28 text-white py-2 rounded-md transition ${
+                className={`bg-gray-800 w-1/3 mx-auto block text-white py-2 rounded-md transition ${
                   loading ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-700"
                 }`}
               >
